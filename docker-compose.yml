@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  flask-app:
+    image: flask-oauth-app:latest
+    container_name: oauthcontainer
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:22001:22001"
+    volumes:
+      - app-logs:/var/log/wallet
+
+
+    restart: unless-stopped
+
+
+    env_file:
+      - .env
+volumes:
+  app-logs:
