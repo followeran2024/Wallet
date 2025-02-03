@@ -50,7 +50,7 @@ pipeline {
         stage('Run Tests') {
             steps {
                 script {
-                    sh "docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} sh -c 'pip install pytest && pytest test.py -v'"
+                    sh "docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} sh -c 'pip install pytest && pytest tests/ -v'"
                 }
             }
         }
