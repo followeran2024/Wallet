@@ -35,7 +35,19 @@ class Wallet(BaseModel):
     is_active = BooleanField(default=True)
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(default=datetime.now)
-
+    def serialize(self):
+        """
+        Serialize the Wallet instance into a dictionary format suitable for JSON output.
+        """
+        return {
+            'id': self.id,
+            'user_id': self.user.id,
+            'balance': float(self.balance),
+            'currency': self.currency,
+            'is_active': self.is_active,
+            'created_at': self.created_at.isoformat(),
+            'updated_at': self.updated_at.isoformat()
+        }
 class Transaction(BaseModel):
     wallet = ForeignKeyField(Wallet, backref='transactions')
     amount = DecimalField(decimal_places=2)

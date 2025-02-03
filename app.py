@@ -83,9 +83,11 @@ def create_user():
         logger.error("Username or email already exists")
         return jsonify({'error': 'Username or email already exists'}), 400
 
-@app.route('/api/wallets', methods=['POST'])
+@app.route('/api/wallets', methods=['POST','GET'])
 @require_oauth2_token
 def create_wallet():
+    if str(request.method).lower()=="get":
+        return [x.serialize() for x in Wallet.select()]
     logger.info("Creating a new wallet")
     data = request.get_json()
     try:
