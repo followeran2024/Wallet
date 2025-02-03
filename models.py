@@ -1,0 +1,51 @@
+from peewee import *
+from datetime import datetime, timezone
+from playhouse.pool import PooledMySQLDatabase
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+db = PooledMySQLDatabase(
+        os.getenv('DB_NAME'),  # Database name
+        user=os.getenv('DB_USERNAME'),
+        password=os.getenv('DB_PASSWORD'),
+        host=os.getenv('DB_HOST'),
+        port=3306,
+        max_connections=310,
+        stale_timeout=100
+    )
+# Database configuration
+
+
+# Models remain the same as before
+class BaseModel(Model):
+    class Meta:
+        database = db
+
+class User(BaseModel):
+    username = CharField(unique=True)
+    email = CharField(null=True)
+    created_at = DateTimeField(default=datetime.now)
+
+class Wallet(BaseModel):
+    user = ForeignKeyField(User, backref='wallets')
+    balance = DecimalField(decimal_places=2, default=0)
+    currency = CharField(default='IRT')
+    is_active = BooleanField(default=True)
+    created_at = DateTimeField(default=datetime.now)
+    updated_at = DateTimeField(default=datetime.now)
+
+class Transaction(BaseModel):
+    wallet = ForeignKeyField(Wallet, backref='transactions')
+    amount = DecimalField(decimal_places=2)
+    transaction_type = CharField()
+    description = TextField(null=True)
+    status = CharField(default='pending')
+    created_at = DateTimeField(default=datetime.now)
+
+# Initialize database
+def initialize_db():
+    db.connect()
+    db.create_tables([User, Wallet, Transaction])
+    db.close()
