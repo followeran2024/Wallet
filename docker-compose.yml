@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   flask-app:
-    image: flask-oauth-app:latest
-    container_name: oauthcontainer
+    image: flask-wallet-app:latest
+    container_name: walletcontainer
     build:
       context: .
       dockerfile: Dockerfile
