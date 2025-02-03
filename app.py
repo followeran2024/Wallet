@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,render_template
 from models import *
 from datetime import datetime, timezone
 from playhouse.shortcuts import model_to_dict
@@ -7,10 +7,12 @@ import requests,logging
 from functools import wraps
 from peewee import IntegrityError, DoesNotExist
 from dotenv import load_dotenv
-
+from flask_cors import CORS
 load_dotenv()
+
 # Initialize Flask app
 app = Flask(__name__)
+CORS(app)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 # Configuration
