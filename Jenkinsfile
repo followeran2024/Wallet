@@ -22,13 +22,15 @@ pipeline {
                     withCredentials([
                         string(credentialsId: 'wallet_db_username', variable: 'DB_USERNAME'),
                         string(credentialsId: 'wallet_db_password', variable: 'DB_PASSWORD'),
-                        string(credentialsId: 'wallet_db_host', variable: 'DB_HOST')
+                        string(credentialsId: 'wallet_db_host', variable: 'DB_HOST'),
+                        string(credentialsId: 'VALIDATE_TOKEN_URL', variable: 'VALIDATE_TOKEN_URL')
                     ]) {
                         def envFileContent = """
                         FLASK_ENV=production
                         DB_HOST=${DB_HOST}
                         DB_USER=${DB_USERNAME}
                         DB_PASSWORD=${DB_PASSWORD}
+                        VALIDATE_TOKEN_URL=${VALIDATE_TOKEN_URL}
                         """
 
                         writeFile file: '.env', text: envFileContent
