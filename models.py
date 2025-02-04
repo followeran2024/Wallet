@@ -15,6 +15,7 @@ db = PooledMySQLDatabase(
         max_connections=310,
         stale_timeout=100
     )
+
 # Database configuration
 
 # Models remain the same as before
@@ -35,7 +36,8 @@ class Wallet(BaseModel):
     created_at = DateTimeField(default=datetime.now)
     updated_at = DateTimeField(default=datetime.now)
     def serialize(self):
-        db.connect(reuse_if_open=True)
+        
+        #db.connect(reuse_if_open=True)
         """
         Serialize the Wallet instance into a dictionary format suitable for JSON output.
         """

@@ -12,7 +12,7 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
-initialize_db()
+#initialize_db()
 CORS(app)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -71,6 +71,7 @@ def require_oauth2_token(f):
 @app.route('/api/users', methods=['POST'])
 @require_oauth2_token
 def create_user():
+    db.connect(True)
     logger.info("Creating a new user")
     data = request.get_json()
     try:
