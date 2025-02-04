@@ -16,7 +16,7 @@ db = PooledMySQLDatabase(
         stale_timeout=100
     )
 # Database configuration
-db.connect()
+
 # Models remain the same as before
 class BaseModel(Model):
     class Meta:
@@ -59,5 +59,5 @@ class Transaction(BaseModel):
 # Initialize database
 def initialize_db():
     db.connect()
-    db.create_tables([User, Wallet, Transaction])
+    db.create_tables([User, Wallet, Transaction],safe=True)
     db.close()
