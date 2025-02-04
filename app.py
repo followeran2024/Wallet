@@ -12,6 +12,7 @@ load_dotenv()
 
 # Initialize Flask app
 app = Flask(__name__)
+initialize_db()
 CORS(app)
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
