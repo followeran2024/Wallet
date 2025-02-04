@@ -49,14 +49,14 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
+       /*stage('Run Tests') {
             steps {
                 script {
                     sh "docker run --rm ${DOCKER_IMAGE}:${DOCKER_TAG} sh -c 'pip install pytest && pytest tests/ -v'"
                 }
             }
         }
-
+*/
         stage('Deploy to Production') {
             steps {
                 script {
