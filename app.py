@@ -78,7 +78,12 @@ def create_user():
             email=data['email']
         )
         logger.info(f"User created successfully: {user.id}")
-        return jsonify({'message': 'User created successfully', 'user': model_to_dict(user)}), 201
+        wallet = Wallet.create(
+            user=user,
+            currency=data.get('currency', 'IRT')
+        )
+        logger.info(f"created {wallet.id} wallet for user {user.id}")
+        return jsonify({'message': 'User created successfully', 'user': model_to_dict(user),'wallet_id':wallet.id}), 201# returning handled wallet
     except IntegrityError:
         logger.error("Username or email already exists")
         return jsonify({'error': 'Username or email already exists'}), 400
@@ -86,8 +91,8 @@ def create_user():
 @app.route('/api/wallets', methods=['POST','GET'])
 @require_oauth2_token
 def create_wallet():
-    if str(request.method).lower()=="get":
-        return [x.serialize() for x in Wallet.select()]
+    if str(request.method).lower()=="get":# creating wallet is handled on /api/users while user creation
+        return [x.serialize() for x in Wallet.select()] 
     logger.info("Creating a new wallet")
     data = request.get_json()
     try:
