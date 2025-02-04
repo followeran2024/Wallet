@@ -71,7 +71,7 @@ def require_oauth2_token(f):
 @app.route('/api/users', methods=['POST'])
 @require_oauth2_token
 def create_user():
-    #db.connect(True)
+    db.connect(True)
     logger.info("Creating a new user")
     data = request.get_json()
     try:
@@ -93,6 +93,7 @@ def create_user():
 @app.route('/api/wallets', methods=['POST','GET'])
 @require_oauth2_token
 def create_wallet():
+    db.connect(True)
     if str(request.method).lower()=="get":# creating wallet is handled on /api/users while user creation
         return [x.serialize() for x in Wallet.select()] 
     logger.info("Creating a new wallet")
@@ -113,6 +114,7 @@ def create_wallet():
 @app.route('/api/wallets/<int:wallet_id>', methods=['GET'])
 @require_oauth2_token
 def get_wallet(wallet_id):
+    db.connect(True)
     logger.info(f"Fetching wallet with ID: {wallet_id}")
     try:
         # Add user verification to ensure users can only access their own wallets
@@ -129,6 +131,7 @@ def get_wallet(wallet_id):
 @app.route('/api/transactions', methods=['POST'])
 @require_oauth2_token
 def create_transaction():
+    db.connect(True)
     logger.info("Creating a new transaction")
     data = request.get_json()
     try:
@@ -180,6 +183,7 @@ def create_transaction():
 @app.route('/api/transactions', methods=['GET'])
 @require_oauth2_token
 def get_transactions():
+    db.connect(True)
     logger.info("Fetching transactions")
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 10))

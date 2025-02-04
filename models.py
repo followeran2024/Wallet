@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 db = PooledMySQLDatabase(
-        os.getenv('DB_NAME'),  # Database name
+        "wallet",  # Database name
         user=os.getenv('DB_USERNAME'),
         password=os.getenv('DB_PASSWORD'),
         host=os.getenv('DB_HOST'),
@@ -63,3 +63,4 @@ def initialize_db():
     db.connect()
     db.create_tables([User, Wallet, Transaction],safe=True)
     db.close()
+initialize_db()
