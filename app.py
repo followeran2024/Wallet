@@ -71,7 +71,7 @@ def require_oauth2_token(f):
 @app.route('/api/users', methods=['POST'])
 @require_oauth2_token
 def create_user():
-    db.connect(True)
+    #db.connect(True)
     logger.info("Creating a new user")
     data = request.get_json()
     try:
