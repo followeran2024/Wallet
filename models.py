@@ -6,15 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-db = PooledMySQLDatabase(
-        "wallet",  # Database name
-        user=os.getenv('DB_USERNAME'),
-        password=os.getenv('DB_PASSWORD'),
-        host=os.getenv('DB_HOST'),
-        port=3306,
-        max_connections=310,
-        stale_timeout=100
-    )
+db = SqliteDatabase('wallet.db')
 
 # Database configuration
 
