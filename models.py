@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-db = MySQLDatabase(autoconnect=True,database='wallet',username=os.getenv('DB_USERNAME'),password=os.getenv('DB_PASSWORD'),host=os.getenv('DB_HOST'),port=3306)
+db = MySQLDatabase(autoconnect=True,database='wallet',user=str(os.getenv('DB_USERNAME')),password=str(os.getenv('DB_PASSWORD')),host=str(os.getenv('DB_HOST')),port=3306)
 
 # Database configuration
 
