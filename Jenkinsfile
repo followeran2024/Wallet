@@ -25,19 +25,16 @@ pipeline {
                         string(credentialsId: 'wallet_db_host', variable: 'DB_HOST'),
                         string(credentialsId: 'VALIDATE_TOKEN_URL', variable: 'VALIDATE_TOKEN_URL')
                     ]) {
-                        def envFileContent = """
-                        FLASK_ENV=production
-                        DB_HOST=${DB_HOST}
-                        DB_USER=${DB_USERNAME}
-                        DB_PASSWORD=${DB_PASSWORD}
-                        VALIDATE_TOKEN_URL=${VALIDATE_TOKEN_URL}
-                        """
-
-                        writeFile file: '.env', text: envFileContent
+                       sh """
+                                    echo "DB_USERNAME=$DB_USERNAME" > .env
+                                    echo "DB_PASSWORD=$DB_PASSWORD" >> .env
+                                    echo "DB_HOST=$DB_HOST" >> .env
+                                    cat .env  # Debugging: Print .env file to Jenkins logs
+                                """
                     }
                 }
 
-               
+                sh 'cat .env'  // Debugging (remove in production)
             }
         }
 
