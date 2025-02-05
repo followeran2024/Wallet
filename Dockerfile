@@ -15,12 +15,9 @@ COPY . .
 
 # Create a directory for logs
 RUN mkdir -p /app/logs
-
+COPY .env /app/.env
 # Make port 5000 available to the world outside this container
 
-
-# Define environment variable
-ENV FLASK_APP=app.py
 
 # Run the Flask application
 CMD ["gunicorn", "-w","2", "--bind","0.0.0.0:22001","app:app"]

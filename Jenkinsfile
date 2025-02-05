@@ -37,7 +37,7 @@ pipeline {
                     }
                 }
 
-                sh 'cat .env'  // Debugging (remove in production)
+               
             }
         }
 

@@ -2,6 +2,8 @@ version: '3.8'
 
 services:
   flask-app:
+    env_file:
+      - .env
     image: flask-wallet-app:latest
     container_name: walletcontainer
     build:
@@ -16,7 +18,6 @@ services:
     restart: unless-stopped
 
 
-    env_file:
-      - .env
+
 volumes:
   app-logs:

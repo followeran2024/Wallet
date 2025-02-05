@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-db = SqliteDatabase('wallet.db')
+db = MySQLDatabase(autoconnect=True,database='wallet',username=os.getenv('DB_USERNAME'),password=os.getenv('DB_PASSWORD'),host=os.getenv('DB_HOST'),port=3306)
 
 # Database configuration
 
