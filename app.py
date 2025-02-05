@@ -52,7 +52,7 @@ def require_oauth2_token(f):
                 }), 401
             
             # Add user_id to request context for use in the protected endpoint
-            request.user_id = validation_result.get('user_id')
+            request.user_id = validation_result.get('username')
             logger.info(f"Token validated successfully for user_id: {request.user_id}")
             
             return f(*args, **kwargs)
@@ -137,7 +137,7 @@ def create_transaction():
     try:
         wallet = Wallet.get(
             (Wallet.id == data['wallet_id']) & 
-            (Wallet.user_id == request.user_id)
+            (Wallet.user.username == request.user_id)
         )
         
         if not wallet.is_active:
