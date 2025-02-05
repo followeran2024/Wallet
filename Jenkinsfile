@@ -29,7 +29,7 @@ pipeline {
                                     echo "DB_USERNAME=$DB_USERNAME" > .env
                                     echo "DB_PASSWORD=$DB_PASSWORD" >> .env
                                     echo "DB_HOST=$DB_HOST" >> .env
-                                    echo "DB_HOST=$VALIDATE_TOKEN_URL" >> .env
+                                    echo "VALIDATE_TOKEN_URL=$VALIDATE_TOKEN_URL" >> .env
                                     
                                 """
                     }
