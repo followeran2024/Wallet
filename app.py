@@ -135,12 +135,15 @@ def create_transaction():
     logger.info("Creating a new transaction")
     data = request.get_json()
     try:
-        owner=User.get_by_id(int(request.user_id))
+        owner=User.get_or_none(User.username==data['user_id'])
+
         wallet = Wallet.get(
             (Wallet.id == data['wallet_id']) & 
             (Wallet.user == owner)
         )
-        
+        logger.warning(f"user {owner.username} requested for access to wallet {wallet.id}")
+        if owner is None or wallet.user!=owner:
+            return jsonify({'error': 'Invalid input data OR Wrong credential for the wallet'}), 400
         if not wallet.is_active:
             logger.warning(f"Wallet is inactive: {wallet.id}")
             return jsonify({'error': 'Wallet is inactive'}), 400
