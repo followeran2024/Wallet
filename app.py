@@ -135,9 +135,10 @@ def create_transaction():
     logger.info("Creating a new transaction")
     data = request.get_json()
     try:
+        owner=User.get_by_id(int(request.user_id))
         wallet = Wallet.get(
             (Wallet.id == data['wallet_id']) & 
-            (Wallet.user.username == request.user_id)
+            (Wallet.user == owner)
         )
         
         if not wallet.is_active:
