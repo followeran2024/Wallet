@@ -192,11 +192,11 @@ def get_transactions():
     page = int(request.args.get('page', 1))
     per_page = int(request.args.get('per_page', 10))
     wallet_id = request.args.get('wallet_id')
-
+    owner= User.get_or_none(User.username==request.user_id)
     query = (Transaction
              .select()
              .join(Wallet)
-             .where(Wallet.user_id == request.user_id))
+             .where(Wallet.user == owner.id))
     
     if wallet_id:
         query = query.where(Transaction.wallet_id == wallet_id)
