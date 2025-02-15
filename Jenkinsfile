@@ -23,14 +23,15 @@ pipeline {
                         string(credentialsId: 'wallet_db_username', variable: 'DB_USERNAME'),
                         string(credentialsId: 'wallet_db_password', variable: 'DB_PASSWORD'),
                         string(credentialsId: 'wallet_db_host', variable: 'DB_HOST'),
-                        string(credentialsId: 'VALIDATE_TOKEN_URL', variable: 'VALIDATE_TOKEN_URL')
+                        string(credentialsId: 'VALIDATE_TOKEN_URL', variable: 'VALIDATE_TOKEN_URL'),
+                        string(credentialsId: '	wallet_db_port', variable: 'DB_PORT')
                     ]) {
                        sh """
                                     echo "DB_USERNAME=$DB_USERNAME" > .env
                                     echo "DB_PASSWORD=$DB_PASSWORD" >> .env
                                     echo "DB_HOST=$DB_HOST" >> .env
                                     echo "VALIDATE_TOKEN_URL=$VALIDATE_TOKEN_URL" >> .env
-                                    
+                                    echo "DB_PORT=$DB_PORT" >> .env
                                 """
                     }
                 }
