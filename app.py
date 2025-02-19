@@ -218,6 +218,14 @@ def get_transactions():
         'total_pages': (total_count + per_page - 1) // per_page
     })
 
+@app.route('/heartbeat')
+def heartbeat():
+    try:
+        Transaction.select().limit(1)
+        return jsonify({'status': 'ok'})
+    except:
+        return jsonify({'status': 'error on DB'}), 500
+    
 
 #if __name__ == '__main__':
 #    app.run(debug=True)
