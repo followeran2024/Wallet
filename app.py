@@ -8,6 +8,7 @@ from functools import wraps
 from peewee import IntegrityError, DoesNotExist
 from dotenv import load_dotenv
 from flask_cors import CORS
+from bp_admin import admin_api
 load_dotenv()
 
 # Initialize Flask app
@@ -18,6 +19,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger(__name__)
 # Configuration
 OAUTH_SERVICE_URL = os.getenv('VALIDATE_TOKEN_URL')
+app.register_blueprint(admin_api,url_prefix='/admin')
 # Decorator for OAuth2 protection
 def require_oauth2_token(f):
     @wraps(f)
