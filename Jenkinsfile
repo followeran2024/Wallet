@@ -70,6 +70,7 @@ pipeline {
 
     post {
         success {
+            sh 'sudo chmod +r /var/log/nginx/wallet.log'
             echo 'Pipeline completed successfully!'
         }
         failure {
