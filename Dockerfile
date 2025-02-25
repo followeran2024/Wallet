@@ -9,7 +9,7 @@ COPY requirements.txt .
 
 # Install any needed packages specified in requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
-RUN apt-get update && apt-get install wget
+RUN apt-get update -y && apt-get install wget -y
 
 # Copy the current directory contents into the container
 COPY . .
