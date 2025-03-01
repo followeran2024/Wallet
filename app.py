@@ -170,7 +170,7 @@ def create_transaction():
             wallet.balance -= amount
         
         wallet.updated_at = datetime.now()
-        wallet.save()
+        wallet.save(only=[Wallet.balance, Wallet.updated_at])
 
         logger.info(f"Transaction completed successfully: {transaction.id}")
         return jsonify({
