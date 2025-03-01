@@ -127,11 +127,12 @@ def get_transaction_admin():
                 status=data.get('status', 'pending')
             )
             from decimal import Decimal
+            amount = Decimal(str(data['amount']))
             if data['transaction_type'] == 'credit':
-                wallet.balance += Decimal(str(data['amount']))
+                wallet.balance += amount
             else:
-                wallet.balance -= Decimal(str(data['amount']))
-        
+                wallet.balance -= amount
+            wallet.save()
             return jsonify({
                 'id': transaction.id,
                 'wallet_id': transaction.wallet.id,
