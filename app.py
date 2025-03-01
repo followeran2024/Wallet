@@ -220,6 +220,27 @@ def get_transactions():
         'total_pages': (total_count + per_page - 1) // per_page
     })
 
+
+@app.route('/api/get_balance', methods=['GET'])
+@require_oauth2_token
+def get_balance():
+    db.connect(True)
+    logger.info("Fetching balance")
+    wallet_id = request.args.get('wallet_id')
+    owner= User.get_or_none(User.username==request.user_id)
+    if not owner:
+        return {'error':f'User / Wallet owner not found {str(request.user_id)}'},404
+    try:
+        wallet = Wallet.get(
+            (Wallet.id == wallet_id) & 
+            (Wallet.user == owner)
+        )
+        logger.info(f"Balance retrieved successfully: {wallet.balance}")
+        return jsonify({'balance': float(wallet.balance), 'currency': wallet.currency,'created_at':wallet.created_at.isoformat(),'updated_at':wallet.updated_at.isoformat()})
+    except Wallet.DoesNotExist:
+        logger.error(f"Wallet not found or unauthorized access: {wallet_id}")
+        return jsonify({'error': 'Wallet not found or unauthorized access'}), 404
+
 @app.route('/heartbeat')
 def heartbeat():
     try:
