@@ -227,7 +227,7 @@ def get_balance():
     db.connect(True)
     logger.info("Fetching balance")
     wallet_id = request.args.get('wallet_id')
-    owner= User.get_or_none(User.id==request.user_id)
+    owner= User.get_or_none(User.username==request.user_id)
     if not owner:
         return {'error':f'User / Wallet owner not found {str(request.user_id)}'},404
     try:
