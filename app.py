@@ -90,7 +90,7 @@ def create_user():
         return jsonify({'message': 'User created successfully', 'user': model_to_dict(user),'wallet_id':wallet.id}), 201# returning handled wallet
     except IntegrityError:
         logger.error("Username or email already exists")
-        return jsonify({'error': 'Username or email already exists'}), 400
+        return jsonify({'message': 'Username or email already exists','wallet_id':Wallet.get(Wallet.user==User.get(User.username==data['username'])).id}), 200
 
 @app.route('/api/wallets', methods=['POST','GET'])
 @require_oauth2_token
