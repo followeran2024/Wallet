@@ -131,6 +131,10 @@ def get_transaction_admin():
             if data['transaction_type'] == 'credit':
                 wallet.balance += amount
             else:
+                if wallet.balance < amount:
+                    transaction.status = 'failed'
+                    transaction.save()
+                    return jsonify({"error": "Insufficient balance"}), 400
                 wallet.balance -= amount
             wallet.save()
             return jsonify({
