@@ -169,7 +169,7 @@ def create_transaction():
         else:
             if int(amount)>wallet.balance:
                 transaction.status='failed'
-                transaction.save(only=[Transaction.status])
+                transaction.save()
                 logger.error(f"Transaction failed due to insufficient funds: {transaction.id}")
                 return jsonify({'error': 'Insufficient funds for debit transaction'}), 400
             wallet.balance -= amount
