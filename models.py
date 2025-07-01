@@ -5,8 +5,30 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
+from playhouse.shortcuts import ReconnectMixin
 
-db = MySQLDatabase(autoconnect=True,database='wallet',user=str(os.getenv('DB_USERNAME')),password=str(os.getenv('DB_PASSWORD')),host=str(os.getenv('DB_HOST')),port=int(os.getenv('DB_PORT')))
+# Create a ReconnectMixin database class
+class ReconnectMySQLDatabase(ReconnectMixin, MySQLDatabase):
+    def __init__(self, *args, autoreconnect=True, reconnect_retries=5, 
+                 reconnect_interval=1, **kwargs):
+        # These parameters are for ReconnectMixin
+        self.autoreconnect = autoreconnect
+        self.reconnect_retries = reconnect_retries
+        self.reconnect_interval = reconnect_interval
+        
+        # Remove ReconnectMixin-specific args before passing to MySQLDatabase
+        kwargs.pop('autoreconnect', None)
+        kwargs.pop('reconnect_retries', None)
+        kwargs.pop('reconnect_interval', None)
+        
+        super().__init__(*args, **kwargs)
+
+db = ReconnectMySQLDatabase(autoconnect=True,database='wallet',user=str(os.getenv('DB_USERNAME')),password=str(os.getenv('DB_PASSWORD')),
+    host=str(os.getenv('DB_HOST')),
+    port=int(os.getenv('DB_PORT')),
+    autoreconnect=True, 
+    reconnect_retries=5,  
+    reconnect_interval=1)
 
 # Database configuration
 

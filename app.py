@@ -20,6 +20,16 @@ logger = logging.getLogger(__name__)
 # Configuration
 OAUTH_SERVICE_URL = os.getenv('VALIDATE_TOKEN_URL')
 app.register_blueprint(admin_api,url_prefix='/admin')
+
+@app.before_request
+def before_request():
+    if db.is_closed():
+        db.connect()
+
+@app.teardown_request
+def teardown_request(exception):
+    if not db.is_closed():
+        db.close()
 # Decorator for OAuth2 protection
 def require_oauth2_token(f):
     @wraps(f)
